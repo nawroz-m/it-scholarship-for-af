@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>راهنمای جامع و تعاملی بورسیه‌های تحصیلی ایتالیا برای افغان‌ها</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Vazirmatn Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #fcfbf9;
+            color: #1e293b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
+
+<!-- Chosen Palette: Warm Sand & Emerald Harmony (Background: #fcfbf9 Warm Off-White, Primary: Emerald #047857 & Slate #0f172a, Accents: Warm Amber #d97706 & Indigo #4338ca) -->
+<!-- Application Structure Plan: Designed as an interactive dashboard rather than a static document to maximize usability. 1. Executive Key Metrics Overview for quick high-level insights. 2. Interactive Scholarship Explorer & Filter Matrix (filterable by level, competition, and search) with modal details to compare complex requirements effortlessly. 3. Visual Analytics Hub with Chart.js charts comparing benefits, expense proportions, and competition intensity. 4. Interactive Pre-Arrival Expense Calculator adjusting costs based on country of application (Iran/Pakistan) and CIMEA requirements. 5. Interactive Roadmap & Timeline Tracker with 9 phases. 6. Third-Country Visa & Embassy Navigator comparing Tehran vs. Islamabad. 7. Interactive Readiness & Risk Assessment Checklist providing real-time evaluation score. This logical flow allows students to first explore options, calculate realistic costs, map out deadlines, and verify document readiness. -->
+<!-- Visualization & Content Choices: 
+     - Scholarship Comparison Matrix -> Goal: Compare -> Filterable Grid Cards & Interactive Modal -> Vanilla JS dynamic filtering.
+     - Annual Funding Comparison -> Goal: Compare -> Horizontal Bar Chart -> Chart.js Canvas -> Clear comparison of stipend value.
+     - Initial Pre-Arrival Cost Breakdown -> Goal: Inform/Proportion -> Doughnut Chart -> Chart.js Canvas -> Visualizes share of CIMEA, flights, and travel.
+     - Competition & Difficulty Matrix -> Goal: Compare -> Polar Area Chart -> Chart.js Canvas -> Visualizes relative application pressure.
+     - Personal Pre-Arrival Cost Calculator -> Goal: Interact & Calculate -> Form Controls + JS dynamic calculation -> Instantly calculates budget in USD/EUR.
+     - Interactive Timeline -> Goal: Change over time -> Step-based Interactive Roadmap with toggle details -> Clean CSS/JS visual steps.
+     - Document Readiness Diagnostic -> Goal: Organize & Assess -> Interactive Checkbox Form + Readiness Score Meter -> Provides personalized feedback.
+     CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. All visuals rely on HTML/CSS styled containers, Chart.js HTML5 Canvas, and native unicode icons. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<!-- Header & Navigation -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🎓</span>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold text-slate-900 leading-tight">پورتال راهنمای بورسیه‌های ایتالیا</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">راهنمای راهبردی و ابزار تعاملی اختصاصی دانشجویان افغانستان</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-reverse space-x-1 lg:space-x-4 text-sm font-medium text-slate-600">
+                <a href="#overview" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">داشبورد</a>
+                <a href="#scholarships" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">انواع بورسیه</a>
+                <a href="#analytics" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">تحلیل داده‌ها</a>
+                <a href="#calculator" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">محاسبه‌گر هزینه</a>
+                <a href="#roadmap" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">نقشه راه</a>
+                <a href="#visa" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">سفارت و ویزا</a>
+                <a href="#checklist" class="px-3 py-2 rounded-lg hover:bg-slate-100 transition">چک‌لیست</a>
+            </nav>
+            <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 text-xl">
+                ☰
+            </button>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1 text-sm font-medium">
+        <a href="#overview" class="block px-3 py-2 rounded-md hover:bg-slate-100">داشبورد اصلی</a>
+        <a href="#scholarships" class="block px-3 py-2 rounded-md hover:bg-slate-100">انواع بورسیه‌ها</a>
+        <a href="#analytics" class="block px-3 py-2 rounded-md hover:bg-slate-100">تحلیل و نمودارها</a>
+        <a href="#calculator" class="block px-3 py-2 rounded-md hover:bg-slate-100">محاسبه‌گر بودجه</a>
+        <a href="#roadmap" class="block px-3 py-2 rounded-md hover:bg-slate-100">نقشه راه زمان‌بندی</a>
+        <a href="#visa" class="block px-3 py-2 rounded-md hover:bg-slate-100">راهنمای ویزا و سفارت</a>
+        <a href="#checklist" class="block px-3 py-2 rounded-md hover:bg-slate-100">ارزیابی آمادگی مدارک</a>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- HERO & OVERVIEW SECTION -->
+    <section id="overview" class="space-y-6">
+        <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 rounded-2xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="max-w-3xl space-y-4 relative z-10">
+                <div class="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold">
+                    <span>🇦🇫 ➔ 🇮🇹</span>
+                    <span>راهنمای ویژه دانشجویان افغانستان</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                    نقشه راه جامع و تعاملی بورسیه‌های تحصیلی ایتالیا
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    این سامانه تحلیلی با هدف تسهیل فرایند اپلای، شفاف‌سازی هزینه‌های واقعی، ارزیابی شانس پذیرش و ارائه راهکارهای اجرایی برای ویزا از کشورهای ثالث طراحی شده است. از ابزارهای تعاملی زیر برای کاوش و برنامه‌ریزی هوشمندانه استفاده کنید.
+                </p>
+            </div>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-700/60 text-slate-100">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <span class="text-xs text-slate-400 block mb-1">گزینه‌های بورسیه</span>
+                    <span class="text-2xl sm:text-3xl font-bold text-emerald-400">۶ نوع</span>
+                    <span class="text-[11px] text-slate-400 block mt-1">دولت، استانی، شایستگی، دکتری، UNICORE</span>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <span class="text-xs text-slate-400 block mb-1">حداکثر فاند سالانه</span>
+                    <span class="text-2xl sm:text-3xl font-bold text-amber-400">۱۶,۲۴۳ €</span>
+                    <span class="text-[11px] text-slate-400 block mt-1">فاند دکتری (+ ۵۰٪ سفر پژوهشی)</span>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <span class="text-xs text-slate-400 block mb-1">تمکن مالی سفارت</span>
+                    <span class="text-2xl sm:text-3xl font-bold text-indigo-300">۱۰,۱۸۰ €</span>
+                    <span class="text-[11px] text-slate-400 block mt-1">حساب ۶ ماهه جهت ویزای تایپ D</span>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <span class="text-xs text-slate-400 block mb-1">سرمایه شخصی اولیه</span>
+                    <span class="text-2xl sm:text-3xl font-bold text-rose-300">$۲,۸۰۰ - $۴,۸۰۰</span>
+                    <span class="text-[11px] text-slate-400 block mt-1">هزینه‌های پیش از واریز قسط اول</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHOLARSHIP EXPLORER & MATRIX -->
+    <section id="scholarships" class="space-y-6">
+        <div class="border-r-4 border-emerald-600 pr-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">ماتریس و مرورگر تعاملی بورسیه‌ها</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                این بخش کلیه برنامه‌های بورسیه تحصیلی ایتالیا را ثبت و طبقه‌بندی کرده است. با استفاده از فیلترهای زیر می‌توانید بورسیه‌های متناسب با مقطع تحصیلی، سطح رقابت و شرایط خود را جستجو و بررسی کنید.
+            </p>
+        </div>
+
+        <!-- Controls / Filters -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <label class="text-xs font-semibold text-slate-600">مطع تحصیلی:</label>
+                <select id="levelFilter" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <option value="all">همه مقاطع</option>
+                    <option value="bachelor">کارشناسی (Bachelor)</option>
+                    <option value="master">کارشناسی ارشد (Master)</option>
+                    <option value="phd">دکتری (PhD)</option>
+                </select>
+
+                <label class="text-xs font-semibold text-slate-600 mr-2">سطح رقابت:</label>
+                <select id="competitionFilter" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <option value="all">همه سطوح</option>
+                    <option value="Very High">بسیار بالا (Very High)</option>
+                    <option value="High">بالا (High)</option>
+                    <option value="Medium">متوسط / آسان (Low/Medium)</option>
+                </select>
+            </div>
+
+            <div class="w-full md:w-64">
+                <input type="text" id="searchInput" placeholder="جستجوی نام بورسیه یا کلیدواژه..." class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div id="scholarshipGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Content Injected via JS -->
+        </div>
+    </section>
+
+    <!-- SCHOLARSHIP DETAIL MODAL -->
+    <div id="scholarshipModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl border border-slate-200">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-start sticky top-0 bg-white z-10">
+                <div>
+                    <span id="modalLevelBadge" class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 mb-2"></span>
+                    <h3 id="modalTitle" class="text-xl font-bold text-slate-900"></h3>
+                </div>
+                <button id="closeModalBtn" class="text-slate-400 hover:text-slate-600 text-2xl font-bold px-2">&times;</button>
+            </div>
+            <div id="modalBody" class="p-6 space-y-6 text-sm text-slate-700">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ANALYTICS & DASHBOARD CHARTS -->
+    <section id="analytics" class="space-y-6">
+        <div class="border-r-4 border-indigo-600 pr-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">تحلیل داده‌ها و مقایسه بصری</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                این بخش با هدف ارائه درک تصویری دقیق از ارزش مالی بورسیه‌ها، ساختار هزینه‌های پیش از ورود و ارزیابی میزان سختی و رقابت در قالب نمودارهای تحلیلی ارائه شده است.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Chart 1: Financial Comparison -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base">مقایسه ارزش مالی سالانه بورسیه‌ها (یورو)</h3>
+                    <span class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded">کمک‌هزینه نقدی / معافیت</span>
+                </div>
+                <p class="text-xs text-slate-500">
+                    نمودار زیر ارزش ریالی/ارزی تقریبی سالانه هر بورسیه را مقایسه می‌کند (بدون احتساب بیمه و معافیت‌های غیرنقدی).
+                </p>
+                <div class="chart-container">
+                    <canvas id="fundingChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Pre-Arrival Costs Breakdown -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base">تفکیک هزینه‌های شخصی اولیه پیش از ورود ($)</h3>
+                    <span class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded">میانگین $۳,۸۰۰</span>
+                </div>
+                <p class="text-xs text-slate-500">
+                    بخش‌های مختلف هزینه‌های نقدینگی ضروری قبل از دریافت نخستین قسط بورسیه در ایتالیا.
+                </p>
+                <div class="chart-container">
+                    <canvas id="costsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart 3: Competition Matrix -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-800 text-sm sm:text-base">سنجش شاخص رقابت و شانس موفقیت نسبی</h3>
+                <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">بر مبنای ظرفیت و تقاضا</span>
+            </div>
+            <p class="text-xs text-slate-500">
+                مقایسه کیفی شاخص رقابت در بین متقاضیان افغان؛ بورسیه DSU و معافیت‌های شهریه دارای نرخ موفقیت بالاتری به شرط تکمیل مدارک مالی هستند.
+            </p>
+            <div class="chart-container">
+                <canvas id="competitionChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCULATOR SECTION -->
+    <section id="calculator" class="space-y-6">
+        <div class="border-r-4 border-amber-600 pr-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">محاسبه‌گر هوشمند بودجه و سرمایه اولیه</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                این ابزار به شما کمک می‌کند بر اساس شرایط اختصاصی خود (کشور مبدا اقدام، نیاز به CIMEA و تنخواه اولیه همراه)، برآورد دقیقی از نقدینگی مورد نیاز پیش از ورود به ایتالیا داشته باشید.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Inputs -->
+            <div class="lg:col-span-7 space-y-5">
+                <h3 class="font-bold text-slate-800 border-b pb-2 text-sm sm:text-base">تنظیمات و ورودی‌های متقاضی</h3>
+                
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold text-slate-700">کشور ثالث محل اقدام جهت ویزا:</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 text-xs sm:text-sm">
+                            <input type="radio" name="country" value="iran" checked class="text-emerald-600 focus:ring-emerald-500">
+                            <span>ایران (تهران - VisaMetric)</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 text-xs sm:text-sm">
+                            <input type="radio" name="country" value="pakistan" class="text-emerald-600 focus:ring-emerald-500">
+                            <span>پاکستان (اسلام‌آباد)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold text-slate-700">نیاز به دریافت گواهی CIMEA (€۴۰۰):</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 text-xs sm:text-sm">
+                            <input type="radio" name="cimea" value="yes" checked class="text-emerald-600 focus:ring-emerald-500">
+                            <span>بله (اقدام از سفارت تهران الزامی است)</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 text-xs sm:text-sm">
+                            <input type="radio" name="cimea" value="no" class="text-emerald-600 focus:ring-emerald-500">
+                            <span>خیر (دانشگاه پذیرش مستقیم داد)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-semibold text-slate-700">
+                        <span>تنخواه همراه برای ۲ الی ۳ ماه اول در ایتالیا:</span>
+                        <span id="pocketMoneyVal" class="text-emerald-700 font-bold">۲,۰۰۰ یورو</span>
+                    </div>
+                    <input type="range" id="pocketMoneySlider" min="1000" max="3500" step="250" value="2000" class="w-full accent-emerald-600">
+                    <p class="text-[11px] text-slate-400">تا زمان واریز قسط اول بورسیه استانی (دسامبر/ژانویه)، این مبلغ جهت هزینه‌های اجاره و خوراک در ایتالیا ضروری است.</p>
+                </div>
+            </div>
+
+            <!-- Output Card -->
+            <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 flex flex-col justify-between space-y-6">
+                <div>
+                    <h4 class="text-xs font-semibold text-emerald-400 tracking-wider uppercase mb-1">برآورد کل سرمایه شخصی مورد نیاز</h4>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-white" id="totalCalcUsd">$۳,۶۵۰ USD</div>
+                    <p class="text-xs text-slate-300 mt-1" id="totalCalcEur">(معادل حدود ۳,۳۵۰ یورو)</p>
+                </div>
+
+                <div class="space-y-2 border-t border-slate-700 pt-4 text-xs">
+                    <div class="flex justify-between text-slate-300">
+                        <span>ترجمه و تصدیق مدارک در کابل:</span>
+                        <span class="font-medium text-white">$۲۰۰</span>
+                    </div>
+                    <div class="flex justify-between text-slate-300">
+                        <span>ارزیابی و تاییدیه CIMEA:</span>
+                        <span class="font-medium text-white" id="calcCimeaCost">$۴۳۰</span>
+                    </div>
+                    <div class="flex justify-between text-slate-300">
+                        <span>سفر و اقامت کشور ثالث (ایران/پاکستان):</span>
+                        <span class="font-medium text-white" id="calcTravelCost">$۸۰۰</span>
+                    </div>
+                    <div class="flex justify-between text-slate-300">
+                        <span>عوارض ویزا، کارگزار و بیمه:</span>
+                        <span class="font-medium text-white">$۲۵0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-300">
+                        <span>بلیت یک‌طرفه هواپیما:</span>
+                        <span class="font-medium text-white">$۶۰۰</span>
+                    </div>
+                    <div class="flex justify-between text-slate-300">
+                        <span>تنخواه ورودی همراه:</span>
+                        <span class="font-medium text-white" id="calcPocketCost">$۲,۱۷۰ ($۲,۰۰۰ €)</span>
+                    </div>
+                </div>
+
+                <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-[11px] text-amber-200 leading-relaxed">
+                    <strong>توضیح مهم:</strong> این مبلغ سرمایه شخصی غیرقابل بازگشت یا تنخواه اولیه شماست و کاملاً مستقل از مبلغ **۱۰,۱۷۹.۸۵ یورو** تمکن مالی بانکی سفارت است.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE & ROADMAP SECTION -->
+    <section id="roadmap" class="space-y-6">
+        <div class="border-r-4 border-emerald-600 pr-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">نقشه راه زمان‌بندی و مراحل ۹ گانه اپلای</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                از آماده‌سازی مدارک تا صدور کارت اقامت در ایتالیا؛ مراحل زیر را بر اساس زمان‌بندی پیشنهادی دنبال کنید تا با تاخیر ویزا مواجه نشوید.
+            </p>
+        </div>
+
+        <!-- Filter Buttons for Timeline -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+            <button class="tl-btn active bg-emerald-700 text-white px-4 py-2 rounded-xl transition" data-phase="all">همه مراحل (۹ گانه)</button>
+            <button class="tl-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl hover:bg-slate-50 transition" data-phase="prep">۱۸ ماه قبل (آماده‌سازی)</button>
+            <button class="tl-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl hover:bg-slate-50 transition" data-phase="apply">۱۲ ماه قبل (آزمون و پذیرش)</button>
+            <button class="tl-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl hover:bg-slate-50 transition" data-phase="visa">۶ ماه قبل (Universitaly و ویزا)</button>
+            <button class="tl-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl hover:bg-slate-50 transition" data-phase="arrival">ورود به ایتالیا</button>
+        </div>
+
+        <!-- Timeline Flow Grid -->
+        <div id="timelineContainer" class="space-y-4">
+            <!-- Timeline items dynamically generated -->
+        </div>
+    </section>
+
+    <!-- VISA & THIRD-COUNTRY GUIDE SECTION -->
+    <section id="visa" class="space-y-6">
+        <div class="border-r-4 border-rose-600 pr-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">راهنمای ویزا، تمکن مالی و سفارت در کشورهای ثالث</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                به دلیل عدم ارائه خدمات کنسولی در کابل، متقاضیان باید پرونده ویزای خود را در تهران یا اسلام‌آباد ارائه دهند. نکات کلیدی و الزامات هر نمایندگی در زیر مقایسه شده است.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Iran Path -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl">🇮🇷</span>
+                        <h3 class="font-bold text-slate-900 text-base">سفارت ایتالیا در تهران (از طریق VisaMetric)</h3>
+                    </div>
+                    <span class="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full font-semibold">مرجع اصلی افغان‌ها</span>
+                </div>
+                <ul class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    <li class="flex items-start gap-2">
+                        <span class="text-rose-500 font-bold">●</span>
+                        <span><strong>وقت ملاقات:</strong> کمبود شدید وقت و زمان انتظار طولانی (گاه بیش از ۵ ماه). ثبت‌نام زودهنگام ضروری است.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-rose-500 font-bold">●</span>
+                        <span><strong>تصدیق مدارک:</strong> سفارت تهران مدارک صادرشده در افغانستان را مستقیماً تصدیق نمی‌کند؛ ارائه گواهی **CIMEA** الزامی است.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-rose-500 font-bold">●</span>
+                        <span><strong>تمکن مالی:</strong> ارائه پرینت ۶ ماهه حساب بانکی معتبر با حداقل ۱۰,۱۸۰ یورو در ایران یا حساب ضامن معتبر.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Pakistan Path -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl">🇵🇰</span>
+                        <h3 class="font-bold text-slate-900 text-base">سفارت ایتالیا در اسلام‌آباد</h3>
+                    </div>
+                    <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-semibold">مسیر جایگزین</span>
+                </div>
+                <ul class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    <li class="flex items-start gap-2">
+                        <span class="text-amber-500 font-bold">●</span>
+                        <span><strong>پیش‌شرط اقامت:</strong> مستلزم اخذ ویزای ورود به پاکستان و داشتن شرایط اقامت موقت قانونی در آن کشور.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-amber-500 font-bold">●</span>
+                        <span><strong>فرآیند مصاحبه:</strong> نیازمند حضور فیزیکی در اسلام‌آباد و ارائه مدارک تحصیلی تصدیق‌شده توسط وزارت خارجه کابل.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-amber-500 font-bold">●</span>
+                        <span><strong>حساب بانکی:</strong> عدم پذیرش مستقیم حساب‌های داخل افغانستان؛ لزوم ارائه حساب بین‌المللی یا ضامن معتبر.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Detailed Bank Proof Requirements Card -->
+        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-4">
+            <h3 class="font-bold text-emerald-400 text-base flex items-center gap-2">
+                <span>⚠️</span> نکته بسیار حیاتی: تمکن مالی ۱۰,۱۷۹.۸۵ یورویی برای سفارت
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                بر اساس آیین‌نامه‌های کنسولی، سفارت ایتالیا پرینت حساب بانک‌های داخلی افغانستان را به دلیل عدم اتصال به شبکه بین‌المللی به‌‌سختی می‌پذیرد. راهکارهای معتبر و مورد قبول سفارت عبارتند از:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                    <span class="text-emerald-400 font-bold block mb-1">۱. حساب ضامن مقیم خارج</span>
+                    <span class="text-slate-300">ارائه گواهی تمکن و تعهدنامه مالی از بستگان درجه یک یا دو در اروپا، آمریکا یا خلیج فارس.</span>
+                </div>
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                    <span class="text-emerald-400 font-bold block mb-1">۲. حساب معتبر در ایران/پاکستان</span>
+                    <span class="text-slate-300">داشتن حساب قانونی ۶ ماهه با گردش منظم در بانک‌های معتبر کشور ثالث محل اقدام.</span>
+                </div>
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                    <span class="text-emerald-400 font-bold block mb-1">۳. بورسیه دکتری یا فاند کامل</span>
+                    <span class="text-slate-300">نامه‌های فاند حقوقی دکتری (۱۶,۲۴۳ یورو سالانه) به عنوان جایگزین کامل تمکن شخصی پذیرفته می‌شوند.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHECKLIST & READINESS DIAGNOSTIC -->
+    <section id="checklist" class="space-y-6">
+        <div class="border-r-4 border-indigo-600 pr-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">چک‌لیست هوشمند ارزیابی مدارک و سنجش شانس</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                با علامت‌زدن مدارک و اقداماتی که انجام داده‌اید، میزان آمادگی پرونده خود را جهت ارسال درخواست پذیرش و ویزا بسنجید.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Checklist Inputs -->
+            <div class="lg:col-span-7 space-y-3">
+                <h3 class="font-bold text-slate-800 border-b pb-2 text-sm sm:text-base">مدارک و اقدامات آماده‌شده:</h3>
+                <div id="checklistItems" class="space-y-2">
+                    <!-- Checkboxes injected by JS -->
+                </div>
+            </div>
+
+            <!-- Diagnostic Gauge & Output -->
+            <div class="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-6 text-center">
+                <div>
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">امتیاز آمادگی پرونده شما</h4>
+                    <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+                        <div id="readinessGauge" class="w-full h-full rounded-full border-8 border-slate-200 border-t-emerald-600 border-r-emerald-600 flex items-center justify-center transition-all duration-500">
+                            <span id="readinessPercent" class="text-3xl font-extrabold text-slate-900">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="readinessFeedback" class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-white p-4 rounded-xl border border-slate-200">
+                    برای شروع ارزیابی، مدارک آماده‌شده خود را در سمت راست علامت بزنید.
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+        <p class="text-slate-300 font-semibold">پورتال تحلیلی راهنمای بورسیه‌های تحصیلی ایتالیا برای دانشجویان افغانستان</p>
+        <p>اطلاعات این سامانه بر اساس آخرین آیین‌نامه‌های وزارتی، سفارت و گزارش‌های رسمی به روزرسانی شده است.</p>
+        <p class="text-slate-500">توصیه می‌شود همواره فراخوان‌های رسمی وب‌سایت‌های Universitaly، MAECI و DSU را قبل از اقدام نهایی بررسی فرمایید.</p>
+    </div>
+</footer>
+
+<!-- JS Application Logic -->
+<script>
+// Data Store
+const scholarshipsData = [
+    {
+        id: "maeci",
+        title: "بورسیه دولت ایتالیا (MAECI)",
+        level: "master",
+        levelText: "کارشناسی ارشد و دکتری",
+        benefits: "۹,۰۰۰ یورو سالانه + معافیت شهریه + بیمه پایه درمانی",
+        personalBudget: "۲,۰۰۰ تا ۳,۰۰۰ یورو",
+        deadline: "می - ژوئن (May - June)",
+        competition: "Very High",
+        competitionText: "بسیار بالا",
+        admissionFirst: "بله (پیش‌ثبت‌نام Universitaly)",
+        language: "انگلیسی B2 (آیلتس ۶.۰ / تافل ۷۸) یا ایتالیایی B2",
+        fundingVal: 9000,
+        compScore: 90,
+        details: {
+            eligibility: "سن زیر ۲۸ سال برای ارشد و زیر ۳۰ سال برای دکتری در زمان ثبت‌نام. داشتن سابقه تحصیلی درخشان.",
+            documents: "گذرنامه معتبر، رزومه یوروپاس، انگیزه‌نامه، مدرک زبان انگلیسی/ایتالیایی B2، دانشنامه و ریزنمرات معتبر.",
+            officialExp: "ثبت درخواست تنها از طریق سامانه وزارتی Study in Italy انجام می‌پذیرد و ارائه مدرک زبان رسمی شرط شکلی بررسی پرونده است.",
+            practicalExp: "نخستین قسط بورسیه معمولاً چند ماه پس از ورود به ایتالیا و صدور کارت اقامت (Permesso) واریز می‌شود؛ همراه داشتن حداقل ۲,۰۰۰ یورو نقدینگی الزامی است.",
+            misconceptions: "شایعات مربوط به تخصیص سهمیه خاص و بدون رقابت برای متقاضیان داخل افغانستان صحت ندارد."
+        }
+    },
+    {
+        id: "dsu",
+        title: "بورسیه‌های استانی برپایه نیاز مالی (DSU / EDISU / ERGO)",
+        level: "all",
+        levelText: "کارشناسی، ارشد و دکتری",
+        benefits: "خوابگاه رایگان + غذای رایگان (Mensa) + فاند نقدی تا ۸,۰۰۰ یورو",
+        personalBudget: "۱,۵۰۰ تا ۲,۵۰۰ یورو",
+        deadline: "ژوئیه - سپتامبر (July - Sept)",
+        competition: "High",
+        competitionText: "بالا (رقابت در خوابگاه)",
+        admissionFirst: "بله (پذیرش اولیه دانشگاه)",
+        language: "مطابق با زبان تدریس رشته انتخابی",
+        fundingVal: 8000,
+        compScore: 70,
+        details: {
+            eligibility: "افغانستان در زمره کشورهای بسیار کم‌درآمد (Group A) قرار دارد که موجب احراز آسان‌تر شرط درآمدی (شاخص ISEE زیر ۲۵,۰۰۰ یورو) می‌شود.",
+            documents: "تذکره تابعیت، گواهی درآمد سرپرست، گواهی عدم ملکیت، و فرم تاییدیه کنسولی (Dichiarazione Consolare) از سفارت افغانستان در رم.",
+            officialExp: "سفارت افغانستان در رم مدرک رسمی Dichiarazione Consolare را با اخذ کارمزد ۵۲ یورو جهت ارائه به DSU صادر می‌کند.",
+            practicalExp: "قرارگیری در Group A موجب دریافت حداکثر فاند نقدی و غیرنقدی می‌شود. نخستین قسط در دسامبر یا ژانویه واریز می‌گردد.",
+            misconceptions: "ادعای لزوم ارائه تمکن مالی سنگین شخصی جهت دریافت بورسیه استانی نادرست است؛ اساس این بورسیه بر عدم تمکن مالی خانواده استوار است."
+        }
+    },
+    {
+        id: "merit",
+        title: "بورسیه‌های شایستگی دانشگاه‌ها (University Merit)",
+        level: "master",
+        levelText: "کارشناسی و کارشناسی ارشد",
+        benefits: "۵,۰۰۰ تا ۸,۰۰۰ یورو سالانه + معافیت کامل از شهریه",
+        personalBudget: "۱,۵۰۰ تا ۲,۵۰۰ یورو",
+        deadline: "ژانویه - ژوئیه (Jan - July)",
+        competition: "High",
+        competitionText: "بالا / بسیار بالا",
+        admissionFirst: "بله",
+        language: "انگلیسی B2",
+        fundingVal: 7500,
+        compScore: 80,
+        details: {
+            eligibility: "معدل بالا در مقطع قبلی، رزومه پژوهشی برجسته، نمرات GRE (اختیاری یا الزامی در برخی دانشگاه‌ها). نمونه: بورسیه اختصاصی Legato Pratt در پلی‌تکنیک تورین.",
+            documents: "رزومه علمی، دانشنامه و ریزنمرات، انگیزه‌نامه، توصیه‌نامه‌های آکادمیک.",
+            officialExp: "تمدید بورسیه برای سال دوم منوط به کسب حداقل تعداد مشخصی واحد درسی (مثلاً ۳۰ CFU تا پایان سپتامبر) است.",
+            practicalExp: "دریافت این بورسیه معمولاً مانع هم‌زمان دریافت بخش نقدی بورسیه استانی می‌شود و دانشجو باید یکی را انصراف دهد.",
+            misconceptions: "این ادعا که همه پذیرفته‌شدگان افغان به طور خودکار بورسیه شایستگی می‌گیرند اشتباه است؛ باید تیک درخواست فعال شود."
+        }
+    },
+    {
+        id: "waiver",
+        title: "معافیت کامل از شهریه (Tuition Fee Waivers)",
+        level: "all",
+        levelText: "کارشناسی، ارشد و دکتری",
+        benefits: "معافیت ۱۰۰٪ از پرداخت شهریه آموزشی سالانه",
+        personalBudget: "۱۰,۱۸۰ یورو (تمکن ویزا)",
+        deadline: "همزمان با ثبت‌نام نهایی",
+        competition: "Medium",
+        competitionText: "متوسط / آسان",
+        admissionFirst: "بله",
+        language: "انگلیسی یا ایتالیایی",
+        fundingVal: 3000,
+        compScore: 40,
+        details: {
+            eligibility: "اتباع کشورهای کم‌درآمد (Group A از جمله افغانستان) به صورت آیین‌نامه‌ای معاف از بخش اصلی شهریه هستند.",
+            documents: "مدارک پذیرش دانشگاه، مدارک اثبات تابعیت افغانستان.",
+            officialExp: "دانشجویان افغان تنها عوارض استانی و مالیات تمبر (حدود ۱۶ تا ۱۶۰ یورو) را پرداخت می‌کنند.",
+            practicalExp: "معافیت از شهریه به تنهایی مشکل تمکن مالی سفارت را حل نمی‌کند و اثبات هزینه‌های زندگی (۱۰,۱۸۰ یورو) جداگانه الزامی است.",
+            misconceptions: "معافیت از شهریه به معنای دریافت اسکان یا غذای رایگان نیست."
+        }
+    },
+    {
+        id: "phd",
+        title: "دکتری با فاند کامل (Funded PhD Positions)",
+        level: "phd",
+        levelText: "دکتری (PhD)",
+        benefits: "۱۶,۲۴۳ € خالص سالانه (۱,۳۸۶ € ماهانه) + بودجه پژوهش",
+        personalBudget: "۱,۰۰۰ تا ۱,۵۰۰ یورو",
+        deadline: "آوریل - ژوئیه (April - July)",
+        competition: "High",
+        competitionText: "بالا (رقابت علمی)",
+        admissionFirst: "خیر (همزمان)",
+        language: "انگلیسی پیشرفته",
+        fundingVal: 16243,
+        compScore: 85,
+        details: {
+            eligibility: "داشتن مدرک ارشد معتبر معادل EQF Level 7، پروپوزال قوی و رزومه پژوهشی برجسته.",
+            documents: "پروپوزال پژوهشی (Research Proposal)، ۲ تا ۳ توصیه‌نامه علمی، مقالات علمی، مدرک زبان.",
+            officialExp: "حقوق ماهانه حدود ۱,۳۸۶ یورو خالص است و برای دوره‌های تحقیق خارج از ایتالیا ۵۰٪ افزایش می‌یابد.",
+            practicalExp: "ارتباط قبلی با استاد راهنما (Supervisor) شانس قبولی در مصاحبه آنلاین را به شدت افزایش می‌دهد.",
+            misconceptions: "شایعه وجود محدودیت سنی سخت‌گیرانه برای تمامی دوره‌های دکتری صحت ندارد."
+        }
+    },
+    {
+        id: "unicore",
+        title: "طرح کریدور بشردوستانه (UNICORE)",
+        level: "master",
+        levelText: "کارشناسی ارشد (Master)",
+        benefits: "پوشش کامل بلیت، ویزا، خوابگاه، فاند زندگی و کمک حقوقی",
+        personalBudget: "۰ تا ۵۰۰ یورو",
+        deadline: "فوریه - آوریل (Feb - April)",
+        competition: "Very High",
+        competitionText: "بسیار بالا (۱,۹۰۰ متقاضی برای ۷۰ صندلی)",
+        admissionFirst: "خیر (ارزیابی متمرکز)",
+        language: "انگلیسی B2",
+        fundingVal: 12000,
+        compScore: 95,
+        details: {
+            eligibility: "دانشجویان افغان دارای وضعیت رسمی پناهجویی یا حمایت بین‌المللی ثبت‌شده در کشور ثالث (ایران، پاکستان، هند و...).",
+            documents: "مدرک رسمی پناهجویی UNHCR، دانشنامه کارشناسی، ریزنمرات، انگیزه‌نامه.",
+            officialExp: "طرح UNICORE مسیر ایمن و قانونی ورود دانشجویان تحت حمایت بین‌المللی به ایتالیا است.",
+            practicalExp: "عمدتاً برای افغان‌های مقیم کشورهای ثالث که مدرک UNHCR دارند کاربرد دارد و امکان اقدام مستقیم از داخل افغانستان فراهم نیست.",
+            misconceptions: "ادعای امکان اقدام در طرح UNICORE تنها با داشتن پاسپورت افغان و بدون مدرک رسمی پناهجویی نادرست است."
+        }
+    }
+];
+
+const timelineSteps = [
+    { phase: "prep", step: 1, title: "انتخاب رشته و ارزیابی مدرک", time: "۱۸ ماه قبل", desc: "اطمینان از تطابق دوره با مدرک ۱۲ ساله مکتب یا لیسانس و بررسی زبان تدریس دوره." },
+    { phase: "prep", step: 2, title: "آماده‌سازی مدارک و ترجمه", time: "۱۶ ماه قبل", desc: "ترجمه رسمی مدارک تحصیلی و تذکره به زبان ایتالیایی و اخذ تاییدیه‌های وزارتی در کابل." },
+    { phase: "apply", step: 3, title: "شرکت در آزمون زبان", time: "۱۲ ماه قبل", desc: "اخذ مدرک رسمی IELTS (حداقل ۶.۰) یا TOEFL (حداقل ۷۸)؛ فرآیند اپلای بدون مدرک زبان با ریسک رد مواجه است." },
+    { phase: "apply", step: 4, title: "ثبت درخواست پذیرش (Apply)", time: "۱۰-۸ ماه قبل", desc: "ارسال مدارک در پورتال آنلاین دانشگاه‌ها (بولونیا، تورین، میلان، پادوا و...)." },
+    { phase: "visa", step: 5, title: "اخذ پذیرش و Universitaly", time: "۶ ماه قبل", desc: "دریافت نامه پذیرش اولیه و تکمیل پیش‌ثبت‌نام در سامانه وزارتی Universitaly جهت انتقال پرونده به سفارت." },
+    { phase: "visa", step: 6, title: "درخواست بورسیه استانی (DSU)", time: "۵ ماه قبل", desc: "بارگذاری مدارک مالی و درخواست برگه Dichiarazione Consolare از سفارت افغانستان در رم." },
+    { phase: "visa", step: 7, title: "وقت سفارت و گواهی CIMEA", time: "۴-۳ ماه قبل", desc: "رزرو وقت در تهران/اسلام‌آباد، سفارش گواهی CIMEA و آماده‌سازی پرینت تمکن مالی ۱۰,۱۸۰ یورویی." },
+    { phase: "visa", step: 8, title: "تحویل پرونده و اخذ ویزای تایپ D", time: "۲ ماه قبل", desc: "سفر به کشور ثالث، تحویل مدارک به کارگزار VisaMetric یا سفارت و دریافت ویزای تحصیلی." },
+    { phase: "arrival", step: 9, title: "ورود به ایتالیا و کارت اقامت", time: "بدو ورود", desc: "اقدام برای کارت اقامت (Permesso di Soggiorno) ظرف ۸ روز کاری، افتتاح حساب بانکی و دریافت قسط اول بورسیه." }
+];
+
+const checklistItemsData = [
+    { id: "c1", label: "پاسپورت معتبر با حداقل ۱۸ ماه اعتبار", weight: 10 },
+    { id: "c2", label: "مدرک زبان انگلیسی B2 رسمی (آیلتس ۶.۰+ / تافل ۷۸+)", weight: 20 },
+    { id: "c3", label: "دانشنامه و ریزنمرات ترجمه‌‌شده به ایتالیایی + مهر وزارت خارجه کابل", weight: 15 },
+    { id: "c4", label: "تذکره تابعیت ترجمه‌شده و ممهور به تاییدیه‌های رسمی", weight: 10 },
+    { id: "c5", label: "نامه پذیرش اولیه (Pre-admission) از دانشگاه ایتالیایی", weight: 15 },
+    { id: "c6", label: "تکمیل پیش‌ثبت‌‌نام در سامانه Universitaly", weight: 10 },
+    { id: "c7", label: "تاییدیه CIMEA یا اقدام برای Dichiarazione Consolare", weight: 10 },
+    { id: "c8", label: "پرینت حساب ۶ ماهه تمکن مالی ۱۰,۱۸۰ یورویی (ضامن یا حساب معتبر)", weight: 10 }
+];
+
+// Initialize Application
+document.addEventListener("DOMContentLoaded", () => {
+    initMobileMenu();
+    renderScholarships("all", "all", "");
+    initCharts();
+    initCalculator();
+    renderTimeline("all");
+    initChecklist();
+    setupFilterEvents();
+});
+
+// Mobile Menu Handler
+function initMobileMenu() {
+    const btn = document.getElementById("mobileMenuBtn");
+    const menu = document.getElementById("mobileMenu");
+    btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+    });
+}
+
+// Scholarship Explorer Rendering & Logic
+function renderScholarships(level, competition, search) {
+    const grid = document.getElementById("scholarshipGrid");
+    grid.innerHTML = "";
+
+    const filtered = scholarshipsData.filter(item => {
+        const matchesLevel = level === "all" || item.level === "all" || item.level === level;
+        const matchesComp = competition === "all" || item.competition === competition;
+        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || 
+                              item.benefits.toLowerCase().includes(search.toLowerCase());
+        return matchesLevel && matchesComp && matchesSearch;
+    });
+
+    if(filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-slate-500 text-sm">هیچ بورسیه‌ای با فیلترهای انتخابی یافت نشد.</div>`;
+        return;
+    }
+
+    filtered.forEach(s => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4";
+        
+        let compBadgeClass = "bg-amber-100 text-amber-800";
+        if(s.competition === "Very High") compBadgeClass = "bg-rose-100 text-rose-800";
+        if(s.competition === "Medium") compBadgeClass = "bg-emerald-100 text-emerald-800";
+
+        card.innerHTML = `
+            <div class="space-y-3">
+                <div class="flex justify-between items-start gap-2">
+                    <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">${s.levelText}</span>
+                    <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${compBadgeClass}">رقابت: ${s.competitionText}</span>
+                </div>
+                <h3 class="font-bold text-slate-900 text-base leading-snug">${s.title}</h3>
+                <div class="space-y-1.5 text-xs text-slate-600">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">مزایا و پوشش:</span>
+                        <span class="font-medium text-slate-800 text-left">${s.benefits}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">نقدینگی شخصی مورد نیاز:</span>
+                        <span class="font-medium text-slate-800">${s.personalBudget}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">مهلت اقدام (ددلاین):</span>
+                        <span class="font-medium text-slate-800">${s.deadline}</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="openModal('${s.id}')" class="w-full py-2 px-3 bg-slate-900 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl transition text-center">
+                مشاهده جزئیات کامل و تجربیات
+            </button>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function setupFilterEvents() {
+    const levelF = document.getElementById("levelFilter");
+    const compF = document.getElementById("competitionFilter");
+    const searchI = document.getElementById("searchInput");
+
+    const update = () => renderScholarships(levelF.value, compF.value, searchI.value);
+
+    levelF.addEventListener("change", update);
+    compF.addEventListener("change", update);
+    searchI.addEventListener("input", update);
+
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+}
+
+function openModal(id) {
+    const s = scholarshipsData.find(x => x.id === id);
+    if(!s) return;
+
+    document.getElementById("modalTitle").innerText = s.title;
+    document.getElementById("modalLevelBadge").innerText = s.levelText;
+
+    const body = document.getElementById("modalBody");
+    body.innerHTML = `
+        <div class="space-y-4">
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <h4 class="font-bold text-slate-800 mb-1 text-xs sm:text-sm">📌 شرایط احراز و واجدین شرایط:</h4>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">${s.details.eligibility}</p>
+            </div>
+
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <h4 class="font-bold text-slate-800 mb-1 text-xs sm:text-sm">📄 مدارک کلیدی مورد نیاز:</h4>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">${s.details.documents}</p>
+            </div>
+
+            <div class="border-t pt-4 space-y-3">
+                <h4 class="font-bold text-slate-900 text-sm">بررسی تفصیلی و تجربیات عملی دانشجویان افغان:</h4>
+                
+                <div class="flex items-start gap-2 bg-emerald-50 p-3 rounded-xl border border-emerald-100 text-xs sm:text-sm">
+                    <span class="text-emerald-600 text-base">🟢</span>
+                    <div>
+                        <strong class="text-emerald-900 block mb-0.5">وضعیت رسمی و تاییدشده:</strong>
+                        <span class="text-emerald-800">${s.details.officialExp}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-2 bg-amber-50 p-3 rounded-xl border border-amber-100 text-xs sm:text-sm">
+                    <span class="text-amber-600 text-base">🟡</span>
+                    <div>
+                        <strong class="text-amber-900 block mb-0.5">تجربه واقعی و چالش عملی:</strong>
+                        <span class="text-amber-800">${s.details.practicalExp}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-2 bg-rose-50 p-3 rounded-xl border border-rose-100 text-xs sm:text-sm">
+                    <span class="text-rose-600 text-base">🔴</span>
+                    <div>
+                        <strong class="text-rose-900 block mb-0.5">شایعات و باورهای نادرست:</strong>
+                        <span class="text-rose-800">${s.details.misconceptions}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById("scholarshipModal").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("scholarshipModal").classList.add("hidden");
+}
+
+// Chart.js Visualizations
+function initCharts() {
+    // 1. Funding Comparison Chart
+    const ctx1 = document.getElementById("fundingChart").getContext("2d");
+    new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: ["دکتری با فاند", "طرح UNICORE", "دولت (MAECI)", "استانی (DSU)", "شایستگی دانشگاه", "معافیت شهریه"],
+            datasets: [{
+                label: "ارزش مالی سالانه (یورو)",
+                data: [16243, 12000, 9000, 8000, 7500, 3000],
+                backgroundColor: ["#047857", "#4338ca", "#0284c7", "#d97706", "#65a30d", "#64748b"],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: value => value + ' €' }
+                }
+            }
+        }
+    });
+
+    // 2. Pre-Arrival Costs Breakdown Chart
+    const ctx2 = document.getElementById("costsChart").getContext("2d");
+    new Chart(ctx2, {
+        type: "doughnut",
+        data: {
+            labels: ["تنخواه ۲-۳ ماه اول در ایتالیا", "سفر و اقامت کشور ثالث", "بلیت هواپیما", "ارزیابی CIMEA", "ترجمه مدارک کابل", "عوارض ویزا/بیمه"],
+            datasets: [{
+                data: [2170, 800, 600, 430, 200, 250],
+                backgroundColor: ["#047857", "#d97706", "#0284c7", "#e11d48", "#8b5cf6", "#64748b"]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } }
+            }
+        }
+    });
+
+    // 3. Competition Matrix Chart
+    const ctx3 = document.getElementById("competitionChart").getContext("2d");
+    new Chart(ctx3, {
+        type: "polarArea",
+        data: {
+            labels: ["UNICORE (سخت‌ترین)", "MAECI", "دکتری با فاند", "شایستگی دانشگاه", "استانی DSU", "معافیت شهریه (راحت‌ترین)"],
+            datasets: [{
+                data: [95, 90, 85, 80, 70, 40],
+                backgroundColor: [
+                    "rgba(225, 29, 72, 0.7)",
+                    "rgba(217, 119, 6, 0.7)",
+                    "rgba(67, 56, 202, 0.7)",
+                    "rgba(2, 132, 199, 0.7)",
+                    "rgba(4, 120, 87, 0.7)",
+                    "rgba(100, 116, 139, 0.7)"
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: "right", labels: { boxWidth: 12, font: { size: 11 } } }
+            },
+            scales: {
+                r: { ticks: { display: false } }
+            }
+        }
+    });
+}
+
+// Calculator Logic
+function initCalculator() {
+    const slider = document.getElementById("pocketMoneySlider");
+    const pocketValDisplay = document.getElementById("pocketMoneyVal");
+
+    const countryRadios = document.querySelectorAll("input[name='country']");
+    const cimeaRadios = document.querySelectorAll("input[name='cimea']");
+
+    function calculate() {
+        const pocketEur = parseInt(slider.value);
+        pocketValDisplay.innerText = pocketEur.toLocaleString("fa-IR") + " یورو";
+
+        let countryCost = 800; // Iran default
+        const selectedCountry = document.querySelector("input[name='country']:checked").value;
+        if(selectedCountry === "pakistan") countryCost = 1000;
+
+        let cimeaCostUsd = 430; // ~400 EUR
+        const selectedCimea = document.querySelector("input[name='cimea']:checked").value;
+        if(selectedCimea === "no") cimeaCostUsd = 0;
+
+        const pocketUsd = Math.round(pocketEur * 1.085); // approx EUR to USD
+        const docsUsd = 200;
+        const visaInsuranceUsd = 250;
+        const flightUsd = 600;
+
+        const totalUsd = pocketUsd + countryCost + cimeaCostUsd + docsUsd + visaInsuranceUsd + flightUsd;
+        const totalEur = Math.round(totalUsd / 1.085);
+
+        document.getElementById("totalCalcUsd").innerText = "$" + totalUsd.toLocaleString("en-US") + " USD";
+        document.getElementById("totalCalcEur").innerText = "(معادل حدود " + totalEur.toLocaleString("fa-IR") + " یورو)";
+
+        document.getElementById("calcCimeaCost").innerText = "$" + cimeaCostUsd;
+        document.getElementById("calcTravelCost").innerText = "$" + countryCost;
+        document.getElementById("calcPocketCost").innerText = "$" + pocketUsd.toLocaleString("en-US") + " (" + pocketEur.toLocaleString("fa-IR") + " €)";
+    }
+
+    slider.addEventListener("input", calculate);
+    countryRadios.forEach(r => r.addEventListener("change", calculate));
+    cimeaRadios.forEach(r => r.addEventListener("change", calculate));
+
+    calculate();
+}
+
+// Timeline Rendering
+function renderTimeline(phaseFilter) {
+    const container = document.getElementById("timelineContainer");
+    container.innerHTML = "";
+
+    const filtered = timelineSteps.filter(s => phaseFilter === "all" || s.phase === phaseFilter);
+
+    filtered.forEach(s => {
+        const item = document.createElement("div");
+        item.className = "bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-4 transition hover:border-emerald-500";
+        item.innerHTML = `
+            <div class="flex-shrink-0 bg-emerald-100 text-emerald-800 font-extrabold w-10 h-10 rounded-xl flex items-center justify-center text-sm">
+                ${s.step}
+            </div>
+            <div class="flex-grow space-y-1">
+                <div class="flex items-center gap-3">
+                    <h4 class="font-bold text-slate-900 text-sm sm:text-base">${s.title}</h4>
+                    <span class="text-[11px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">${s.time}</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${s.desc}</p>
+            </div>
+        `;
+        container.appendChild(item);
+    });
+
+    // Handle Timeline Filter Buttons
+    document.querySelectorAll(".tl-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".tl-btn").forEach(b => {
+                b.classList.remove("bg-emerald-700", "text-white");
+                b.classList.add("bg-white", "text-slate-700");
+            });
+            e.target.classList.remove("bg-white", "text-slate-700");
+            e.target.classList.add("bg-emerald-700", "text-white");
+
+            renderTimeline(e.target.dataset.phase);
+        });
+    });
+}
+
+// Readiness Checklist
+function initChecklist() {
+    const container = document.getElementById("checklistItems");
+    container.innerHTML = "";
+
+    checklistItemsData.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "flex items-center gap-3 p-3 border rounded-xl hover:bg-slate-50 transition cursor-pointer";
+        div.innerHTML = `
+            <input type="checkbox" id="${item.id}" data-weight="${item.weight}" class="chk-item w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
+            <label for="${item.id}" class="text-xs sm:text-sm text-slate-800 font-medium cursor-pointer flex-grow">${item.label}</label>
+        `;
+        container.appendChild(div);
+    });
+
+    document.querySelectorAll(".chk-item").forEach(chk => {
+        chk.addEventListener("change", updateReadinessGauge);
+    });
+}
+
+function updateReadinessGauge() {
+    let score = 0;
+    document.querySelectorAll(".chk-item:checked").forEach(chk => {
+        score += parseInt(chk.dataset.weight);
+    });
+
+    document.getElementById("readinessPercent").innerText = score + "%";
+    
+    const feedback = document.getElementById("readinessFeedback");
+    if(score === 0) {
+        feedback.innerText = "برای شروع ارزیابی، مدارک آماده‌شده خود را علامت بزنید.";
+    } else if(score < 40) {
+        feedback.innerHTML = `<span class="text-rose-600 font-bold block mb-1">مرحله اولیه:</span> پرونده شما هنوز در مراحل ابتدایی است. اولویت اصلی اخذ مدرک زبان B2 و ترجمه مدارک تحصیلی است.`;
+    } else if(score < 75) {
+        feedback.innerHTML = `<span class="text-amber-600 font-bold block mb-1">مرحله متوسط:</span> پیشرفت خوبی داشته‌اید! اکنون روی اخذ پذیرش نهایی، ثبت‌نام Universitaly و تمکن مالی تمرکز کنید.`;
+    } else {
+        feedback.innerHTML = `<span class="text-emerald-600 font-bold block mb-1">آمادگی بسیار بالا:</span> پرونده شما برای ارسال درخواست ویزا و بورسیه آماده است. وقت سفارت را در سریع‌ترین زمان ممکن رزرو کنید.`;
+    }
+}
+</script>
+</body>
+</html>
